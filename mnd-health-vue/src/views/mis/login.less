@@ -1,0 +1,78 @@
+@import url('../style.less');
+
+.page {
+    // 背景图片
+    background-image: url('../../assets/login/bg.jpg');
+    // 图片覆盖整个div
+    background-size: cover;
+    // 设置宽度高度均为100%
+    width: 100%; // 宽度不用设置，自动就是100%
+    height: 100%;
+
+    // page内部的面板div垂直居中（以下两个样式合并起来有这样的作用）
+    display: flex;
+    align-items: center;
+
+    .panel {
+        display: flex;
+        // 设置面板的宽度
+        width: 35%;
+        // 设置面板的最小宽度
+        min-width: 800px;
+        // 水平居中
+        margin-right: auto;    
+        margin-left: auto;
+        // 背景色
+        background-color: #fff;
+        // 面板圆角
+        border-radius: 10px;
+        // 面板内填充
+        padding: 50px 60px 40px 60px;
+
+        .left {
+            // 整个左边div的宽度
+            width: 47%;
+            // 盒模型
+            box-sizing: border-box;
+            .logo {
+                width: 85%;
+                display: block;
+                margin-bottom: 25px;
+            }
+            .big {
+                width: 85%;
+                display: block;
+            }
+        }
+
+        .right {
+            width: 53%;
+            .title-container {
+                display: flex;
+                // 上填充
+                margin-top: 10px;
+                // 下填充
+                margin-bottom: 30px;
+                h2 {
+                    font-size: 30px;
+                    color: @font-color-33;
+                    margin: 0;
+                }
+                span {
+                    font-size: 16px;
+                    margin-top: 12px;
+                    margin-left: 10px;
+                    color: @font-color-8;
+                }
+            }
+
+            .row {
+                margin-bottom: 23px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    }
+}

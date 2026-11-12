@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>美年大健康</title>
+    <style>
+      /*
+        将所有HTML元素的盒模型设置为border-box
+          默认值是content-box：width和height只包含内容区
+          设置为border-box：width和height包含内容区、内边距(padding)和边框(border)
+
+          div {
+            width: 200px;
+            padding: 20px;
+            border: 5px solid;
+          }
+          当是content-box时：
+              实际占用宽度 = 200 + 20*2 + 5*2 = 250px
+      
+          当是border-box时：
+              实际占用宽度 = 200px (已经包含padding和border)
+              内容区宽度 = 200 - 20*2 - 5*2 = 150px
+              这种方式属于更直观的布局：设置宽度时不需要考虑padding和border的影响
+        *：代表所有存在的HTML元素
+        *::before 在HTML元素前添加的伪元素
+        *::after 在HTML元素后添加的伪元素
+      */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      /* 重置按钮默认样式:所有原生 <button> 默认样式全部清空，重置为一块白板 */
+      /* EP组件库中的按钮不是原生<button>，不受影响 */
+      button {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+      }
+
+      /* 让页面三层结构占满整个屏幕，清除默认外边距，实现全屏布局。 */
+      html,
+      body,
+      #app {
+        height: 100vh;
+        margin: 0;
+      }
+
+      body {
+        /* 文字抗锯齿 */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* 统一全局字体（所有元素继承） */
+      body {
+        font-family: "微软雅黑", "Helvetica Neue", Arial, sans-serif;
+      }
+
+      /* 所有超链接无下划线 */
+      a {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

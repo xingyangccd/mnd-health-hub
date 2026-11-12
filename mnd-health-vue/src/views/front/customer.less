@@ -1,0 +1,20 @@
+/* 引入公共样式文件 */
+@import url("../style.less");
+
+/* 客户中心主容器 */
+.customer-container {
+  margin-top: 30px; /* 顶部外边距 */
+  display: flex; /* 启用弹性布局 */
+}
+
+/* 左侧菜单区域样式 */
+.menu {
+  width: 170px; /* 固定宽度 */
+  border-right: 1px solid @border-color-4; /* 右侧分隔线，使用主题颜色变量 */
+}
+
+/* 右侧内容区域样式 */
+.content {
+  margin-left: 15px; /* 左侧外边距，与菜单保持间距 */
+  flex-grow: 1; /* 弹性增长，占据剩余所有空间 */
+}

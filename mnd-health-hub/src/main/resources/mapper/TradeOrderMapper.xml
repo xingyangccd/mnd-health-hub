@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mnd.healthhub.db.mapper.TradeOrderMapper">
+
+    <insert id="insert">
+        insert into trade_order
+        (out_trade_no, customer_id, goods_id, goods_title,
+         goods_price, goods_image, goods_description, quantity,
+         total_amount, order_status, snapshot_id, create_date)
+        values (#{outTradeNo}, #{customerId}, #{goodsId}, #{goodsTitle},
+                #{goodsPrice}, #{goodsImage}, #{goodsDescription}, #{quantity},
+                #{totalAmount}, 1, #{snapshotId}, current_date)
+    </insert>
+
+    <update id="closeOrder">
+        update trade_order
+        set order_status = 2
+        where order_status = 1
+          and timestampdiff(MINUTE, create_time, now()) > 20
+    </update>
+
+    <update id="closeOrderByOutTradeNo">
+        update trade_order
+        set order_status = 2
+        where order_status = 1
+          and out_trade_no = #{outTradeNo}
+    </update>
+
+    <update id="updatePayment">
+        update trade_order
+        set order_status   = #{status},
+            transaction_id = #{transactionId}
+        where out_trade_no = #{outTradeNo}
+          and order_status in (1, 2)
+    </update>
+    <delete id="deleteById">
+        delete
+        from trade_order
+        where order_id = #{orderId}
+          and order_status = 2
+    </delete>
+
+
+    <select id="isCustomerReachedDailyLimit" parameterType="Integer" resultType="boolean">
+        select ((select count(*)
+                 from trade_order
+                 where customer_id = #{customerId}
+                   and create_date = current_date()
+                   and order_status &lt; 3) &gt;= 10)
+                   OR
+               ((select count(*)
+                 from trade_order
+                 where customer_id = #{customerId}
+                   and refund_date = current_date()
+                   and order_status = 4) &gt;= 5) as illegal
+    </select>
+
+    <!--只有订单状态是3 5 6的订单才是有效订单。-->
+    <select id="selectOrderStatistics" resultType="Map">
+        select IFNULL(sum(total_amount), 0) as totalAmount,
+               count(*)                     as totalCount,
+               IFNULL(sum(quantity), 0)     as totalQuantity
+        from trade_order
+        where customer_id = #{id}
+          and order_status in (3, 5, 6)
+    </select>
+
+    <select id="selectByOutTradeNo" resultType="TradeOrderEntity">
+        select *
+        from trade_order
+        where out_trade_no = #{outTradeNo} limit 1
+    </select>
+
+    <select id="findCustomerIdByOutTradeNo" resultType="java.lang.Integer">
+        select customer_id
+        from trade_order
+        where out_trade_no = #{outTradeNo} limit 1
+    </select>
+    <select id="selectPageList" resultType="java.util.Map">
+        select o.order_id as id,
+        o.out_trade_no as outTradeNo,
+        o.goods_id as goodsId,
+        o.snapshot_id as snapshotId,
+        o.goods_title as goodsTitle,
+        o.goods_price as goodsPrice,
+        o.quantity as quantity,
+        o.total_amount as totalAmount,
+        o.goods_image as goodsImage,
+        o.goods_description as goodsDescription,
+        o.order_status as orderStatus,
+        if(o.order_status = 1 and timestampdiff(MINUTE, o.create_time, now()) > 20, true, false) as disabled,
+        date_format(o.create_date, '%Y-%m-%d') as createDate,
+        date_format(o.create_time, '%Y-%m-%d %H:%i:%s') as createTime,
+        count(a.order_id) as appointCount
+        from trade_order o
+        left join med_exam_appointment a on o.order_id = a.order_id
+        where o.customer_id = #{customerId}
+        <if test="orderStatus != null">
+            and o.order_status = #{orderStatus}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            and ( o.out_trade_no like concat('%', #{keyword} ,'%') OR o.goods_title like concat('%', #{keyword} ,'%'))
+        </if>
+        group by o.order_id
+        order by o.order_id desc
+        limit #{startIndex}, #{pageSize}
+    </select>
+
+    <select id="selectPageCount" resultType="Long">
+        select count(*)
+        from trade_order o
+        where o.customer_id = #{customerId}
+        <if test="orderStatus != null">
+            and o.order_status = #{orderStatus}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            and ( o.out_trade_no like concat('%', #{keyword} ,'%') OR o.goods_title like concat('%', #{keyword} ,'%'))
+        </if>
+    </select>
+    <select id="findOutRefundNoByOrderId" resultType="java.lang.String">
+        select out_refund_no as outRefundNo
+        from trade_order
+        where order_id = #{orderId} limit 1
+    </select>
+    <select id="findTransactionInfoByOrderIdAndCustomerId" resultType="java.util.Map">
+        select transaction_id as transactionId, total_amount as totalAmount
+        from trade_order
+        where order_id = #{orderId}
+          and customer_id = #{customerId}
+          and order_status = 3 limit 1
+    </select>
+
+    <select id="selectPageListForMis" resultType="java.util.Map">
+        select
+        o.goods_title as goodsTitle,
+        o.goods_price as goodsPrice,
+        o.quantity,
+        o.total_amount as totalAmount,
+        o.order_status as orderStatus,
+        date_format(o.create_time, '%Y-%m-%d %H:%i') as createTime,
+        o.create_date as createDate,
+        date_format(o.refund_time, '%Y-%m-%d %H:%i') as refundTime,
+        o.refund_date as refundDate,
+        o.order_id as orderId,
+        c.photo_url as photoUrl,
+        c.customer_name as customerName,
+        c.gender,
+        c.phone,
+        date_format(c.register_time, '%Y-%m-%d') as registerTime,
+        o.out_trade_no as outTradeNo,
+        o.transaction_id as transactionId,
+        o.out_refund_no as outRefundNo,
+        o.snapshot_id as snapshotId,
+        count(a.order_id) as num
+        from
+        med_exam_package p
+        join
+        trade_order o
+        on
+        p.id = o.goods_id
+        join
+        crm_customer c
+        on
+        c.id = o.customer_id
+        left join
+        med_exam_appointment a
+        on
+        a.order_id = o.order_id
+        <where>
+            <if test="packageCode != null and packageCode != ''">
+                p.package_code like concat('%',#{packageCode},'%')
+            </if>
+            <if test="keyword != null and keyword != ''">
+                and o.goods_title like concat('%',#{keyword},'%')
+            </if>
+            <if test="phone != null and phone != ''">
+                and c.phone = #{phone}
+            </if>
+            <if test="orderStatus != null">
+                and o.order_status = #{orderStatus}
+            </if>
+            <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+                and o.create_date between #{startDate} and #{endDate}
+            </if>
+            <if test="customerId != null and customerId != ''">
+                and o.customer_id = #{customerId}
+            </if>
+        </where>
+        group by o.order_id
+        order by o.order_id desc
+        limit #{startIndex}, #{pageSize}
+    </select>
+
+    <select id="selectPageCountForMis" resultType="java.lang.Long">
+        select count(*)
+        from
+        med_exam_package p
+        join
+        trade_order o
+        on
+        p.id = o.goods_id
+        join
+        crm_customer c
+        on
+        c.id = o.customer_id
+        <where>
+            <if test="packageCode != null and packageCode != ''">
+                p.package_code like concat('%',#{packageCode},'%')
+            </if>
+            <if test="keyword != null and keyword != ''">
+                and o.goods_title like concat('%',#{keyword},'%')
+            </if>
+            <if test="phone != null and phone != ''">
+                and c.phone = #{phone}
+            </if>
+            <if test="orderStatus != null">
+                and o.order_status = #{orderStatus}
+            </if>
+            <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+                and o.create_date between #{startDate} and #{endDate}
+            </if>
+            <if test="customerId != null and customerId != ''">
+                and o.customer_id = #{customerId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByCustomerIdAndSnapshotId" resultType="java.lang.Long">
+        select count(1)
+        from trade_order
+        where customer_id = #{customerId}
+          and snapshot_id = #{snapshotId} limit 1
+    </select>
+    <select id="existsByOrderIdAndCustomerId" resultType="java.lang.Boolean">
+        select count(1) > 0
+        from trade_order
+        where order_id = #{orderId} and customer_id = #{customerId} limit 1
+    </select>
+
+    <select id="selectOrderIsFinished" resultType="java.util.Map">
+        /* SHARDINGSPHERE_HINT: WRITE_ROUTE_ONLY=true */
+        select o.order_id                                                                             as orderId,
+               o.quantity                                                                             as n1,
+               (select count(*) from med_exam_appointment where order_id = o.order_id and status = 3) as n2
+        from trade_order o
+                 join med_exam_appointment a on o.order_id = a.order_id
+        where a.appointment_no = #{appointmentNo}
+    </select>
+
+    <update id="updateOutRefundNoByOrderIdAndOutRefundNo">
+        update trade_order
+        set out_refund_no = #{refundNo},
+            refund_date   = current_date,
+            refund_time   = now()
+        where order_id = #{orderId}
+          and order_status = 3
+    </update>
+    <update id="updateStatusByOutTradeNo">
+        update trade_order
+        set order_status = 4
+        where out_trade_no = #{outTradeNo}
+          and order_status = 3
+    </update>
+
+    <update id="updateStatus">
+        update trade_order
+        set order_status = #{orderStatus}
+        where order_id = #{orderId}
+    </update>
+
+
+</mapper>

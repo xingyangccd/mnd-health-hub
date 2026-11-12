@@ -1,0 +1,105 @@
+@import url("../style.less");
+.mold {
+  float: right;
+  //el-form-item自带右外填充，所以我们要把外填充去掉
+  margin-right: 0 !important;
+}
+
+.link-blue {
+  color: @font-color-27;
+  cursor: pointer;
+  padding: 5px 0;
+  //鼠标悬停，字体颜色变成浅蓝色
+  &:hover {
+    color: @font-color-28;
+  }
+}
+.link-red {
+  color: @font-color-30;
+  cursor: pointer;
+  padding: 5px 0;
+  //鼠标悬停，字体颜色变成浅红色
+  &:hover {
+    color: @font-color-31;
+  }
+}
+
+.image-uploader {
+  width: 90px;
+  height: 90px;
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  //如果图片不是正方形，缩放之后溢出部分被截掉
+  overflow: hidden;
+}
+
+.el-icon.image-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 90px;
+  height: 90px;
+  text-align: center;
+}
+.image {
+  width: 90px;
+  height: 90px;
+}
+.price {
+  width: 200px;
+}
+.desc {
+  margin-left: 20px;
+  font-size: 14px;
+  color: @font-color-3;
+}
+
+.tag-row {
+  width: 100%;
+  .tag-input {
+    width: 50%;
+  }
+}
+.tags {
+  margin-top: 5px;
+}
+.item-row {
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+/* 
+  消息内容样式 (.message-content):
+  - display: flex 启用弹性布局，实现水平排列
+  - .icon 图标样式：
+      * color: @bg-color-17 使用主题变量设置图标颜色
+      * margin-top: 3px 微调图标垂直位置，实现视觉对齐
+  - p 段落样式：
+      * margin: 0 10px 5px 10px 上边距0，左右边距10px，下边距5px
+      * line-height: 1.7 设置1.7倍行高，提升文本可读性
+
+  文档对话框底部样式 (.document-dialog-footer):
+  - display: flex 启用弹性布局
+  - justify-content: flex-end 子元素右对齐
+  - .uploadBtn 上传按钮样式：
+      * margin-right: 10px 右侧10px外边距，与下载按钮保持间距
+*/
+
+.message-content {
+  display: flex;
+  .icon {
+    color: @bg-color-17;
+    margin-top: 3px;
+  }
+  p {
+    margin: 0 10px 5px 10px;
+    line-height: 1.7;
+  }
+}
+.document-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  .uploadBtn {
+    margin-right: 10px;
+  }
+}

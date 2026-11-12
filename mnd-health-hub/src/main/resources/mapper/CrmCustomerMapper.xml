@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mnd.healthhub.db.mapper.CrmCustomerMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into crm_customer
+            (customer_name,gender,phone,photo_url,register_time)
+        values
+            (#{customerName},#{gender},#{phone},#{photoUrl},now())
+    </insert>
+
+    <update id="update">
+        update crm_customer
+        set customer_name = #{customerName},
+            gender        = #{gender},
+            phone         = #{phone}
+        where id = #{id}
+    </update>
+
+    <select id="findIdByPhone" resultType="java.lang.Integer">
+        select id
+        from crm_customer
+        where phone = #{phone} limit 1
+    </select>
+
+    <!--
+        目前数据库表当中 customer_name、gender、phone这三个字段都是null，没有值。
+        对于以下的SELECT语句来说，最终mybatis会给我们返回一个Map集合。
+        注意：这个Map集合中不存在：customerName、photoUrl、gender这三个key。
+        这是mybatis的处理：如果字段的值是null，返回的类型是 Map，那么这样的key不会被添加到Map对象中。
+    -->
+    <select id="selectById" resultType="Map">
+        select customer_name                          as customerName,
+               gender,
+               phone,
+               photo_url                              as photoUrl,
+               date_format(register_time, '%Y-%m-%d') as registerTime
+        from crm_customer
+        where id = #{id} limit 1
+    </select>
+</mapper>

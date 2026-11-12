@@ -1,0 +1,160 @@
+// 导入公共样式文件
+@import url("../style.less");
+
+// 面包屑导航样式
+.breadcrumb {
+  margin-top: 20px; // 顶部间距
+}
+
+// 搜索条件筛选区域样式
+.search-rows {
+  border: solid 1px @border-color-22; // 边框样式，使用预定义边框颜色变量
+  border-radius: 5px; // 圆角边框
+  margin-top: 25px; // 顶部外边距
+  user-select: none; // 禁止文本选择
+
+  // 筛选行通用样式
+  .row {
+    padding: 12px 30px; // 内边距：上下12px，左右30px
+    border-bottom: dashed 1px @border-color-22; // 底部虚线边框
+    font-size: 14px; // 字体大小
+    color: @font-color-2; // 字体颜色，使用预定义颜色变量
+
+    // 最后一行移除底部边框
+    &:last-of-type {
+      border-bottom: none;
+    }
+
+    // 筛选标签样式（如"【 分类 】"）
+    .label {
+      font-weight: bold; // 加粗显示
+    }
+
+    // 筛选选项项通用样式
+    .item {
+      cursor: pointer; // 鼠标悬停显示手型指针
+    }
+
+    // 激活状态的筛选选项样式
+    .active {
+      color: @font-color-27; // 激活状态颜色，使用预定义颜色变量
+    }
+  }
+}
+
+// 排序筛选区域样式
+.search-filter {
+  display: flex; // 弹性布局，水平排列子元素
+  margin-top: 10px; // 顶部外边距
+  margin-bottom: 10px; // 底部外边距
+
+  // 价格排序操作区域样式
+  .sort-operate {
+    display: flex; // 弹性布局，水平排列文字和图标
+    margin-left: 30px; // 左侧外边距，与单选按钮组保持间距
+    margin-top: 10px; // 顶部外边距，垂直对齐
+    cursor: pointer; // 鼠标悬停显示手型指针
+
+    // 价格文字样式
+    span {
+      font-size: 14px; // 字体大小
+      color: @font-color-25; // 字体颜色，使用预定义颜色变量
+    }
+
+    // 排序图标样式
+    .sort-icon {
+      width: 16px; // 图标宽度
+      height: 16px; // 图标高度
+      margin-left: 5px; // 左侧外边距，与文字保持间距
+      margin-top: 1px; // 顶部微调，实现视觉对齐
+    }
+  }
+}
+
+.goods-container {
+  .goods-list {
+    min-height: 600px;
+    overflow: hidden; // 清除浮动，防止高度塌陷
+    list-style: none; // 移除列表默认样式
+    margin: 0; // 外边距归零
+    padding: 0; // 内边距归零
+    .item {
+      width: 280px; // 固定商品项宽度
+      float: left; // 左浮动实现横向排列
+      margin-right: 26px; // 商品项右侧间距
+      margin-bottom: 50px; // 商品项底部间距
+      .card {
+        img {
+          width: 280px; // 商品图片固定宽度
+        }
+        h4 {
+          font-size: 18px; // 商品标题字体大小
+          font-weight: normal; // 正常字体粗细
+          color: @font-color-1; // 使用主字体颜色变量
+          margin: 10px 0 5px 0; // 上下外边距
+          overflow: hidden; // 超出隐藏
+          text-overflow: ellipsis; // 文本溢出显示省略号
+          white-space: nowrap; // 禁止换行
+        }
+
+        .desc {
+          display: -webkit-box; // 使用Webkit盒子模型
+          -webkit-box-orient: vertical; // 垂直方向排列
+          -webkit-line-clamp: 2; // 限制显示2行
+          line-clamp: 2;
+          overflow: hidden; // 超出隐藏
+          font-size: 12px; // 描述文字大小
+          color: @font-color-3; // 使用辅助字体颜色变量
+          margin: 0 0 5px 0; // 底部外边距
+          line-height: 1.5; // 行高
+          height: 36px; // 固定高度，确保布局一致
+          span {
+            background-color: @bg-color-27; // 折扣标签背景色
+            color: #fff; // 标签文字白色
+            padding: 2px; // 内边距
+            font-size: 11px; // 标签文字大小
+          }
+        }
+        .price {
+          margin: 0; // 价格区域外边距归零
+          overflow: hidden; // 清除浮动
+          .current {
+            color: @font-color-23; // 当前价格颜色
+            font-size: 22px; // 当前价格字体大小
+            font-weight: bold; // 粗体显示
+            float: left; // 左浮动
+          }
+          .old {
+            float: left; // 左浮动
+            font-size: 13px; // 原价字体大小
+            color: @font-color-3; // 使用辅助字体颜色变量
+            text-decoration: line-through; // 删除线效果
+            margin-left: 10px; // 左侧间距
+            margin-top: 7px; // 顶部间距用于垂直对齐
+          }
+          .sale {
+            float: right; // 右浮动
+            font-size: 12px; // 销量字体大小
+            color: @font-color-3; // 使用辅助字体颜色变量
+            margin-top: 7px; // 顶部间距用于垂直对齐
+          }
+        }
+        .buy-btn {
+          width: 100%; // 按钮宽度100%
+          background-color: @button-color-10; // 按钮背景色
+          border: none; // 无边框
+          border-radius: 3px; // 圆角边框
+          height: 40px; // 按钮高度
+          color: #fff; // 文字白色
+          font-size: 15px; // 文字大小
+          margin-top: 10px; // 顶部间距
+          outline: none; // 移除轮廓线
+          cursor: pointer; // 手型光标
+          &:active {
+            background-color: @button-active-color-10; // 按钮按下状态背景色
+          }
+        }
+      }
+    }
+  }
+}

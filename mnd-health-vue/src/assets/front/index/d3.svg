@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="58px" height="58px" viewBox="0 0 58 58" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>权威专家</title>
+    <g id="权威专家" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="椭圆形" fill="#297AFF" cx="29" cy="29" r="29"></circle>
+        <path d="M22,22 L36,22 L36,36 L22,36 Z" fill="#FFFFFF"></path>
+        <path d="M26,26 L32,26 L32,32 L26,32 Z" fill="#297AFF"></path>
+        <circle cx="29" cy="18" r="2" fill="#FFFFFF"></circle>
+    </g>
+</svg>

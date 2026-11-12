@@ -1,0 +1,72 @@
+/* 引入公共样式文件 */
+@import url("../style.less");
+
+/* 概览页面主容器 */
+.summary-container {
+  min-height: 632px; /* 设置最小高度 */
+  .box-card {
+    cursor: default; /* 默认光标样式 */
+    user-select: none; /* 禁止文本选中 */
+    .info {
+      display: flex; /* 弹性布局 */
+      .right {
+        margin-left: 15px; /* 左侧外边距 */
+        flex-grow: 1; /* 占据剩余空间 */
+        .base {
+          font-size: 14px;
+          color: @font-color-1;
+          margin-bottom: 8px;
+          overflow: hidden; /* 清除浮动 */
+          span {
+            border-right: solid 1px @border-color-7; /* 右侧边框分隔 */
+            padding: 0 30px;
+            &:first-of-type {
+              padding-left: 0; /* 第一个元素取消左内边距 */
+            }
+            &:last-of-type {
+              border-right: none; /* 最后一个元素取消右边框 */
+            }
+          }
+          .operate {
+            float: right; /* 右浮动 */
+            display: flex; /* 弹性布局 */
+            cursor: pointer; /* 手型光标 */
+            .el-icon {
+              margin-top: 2px;
+              color: @font-color-27;
+            }
+            div {
+              font-size: 14px;
+              margin-left: 5px;
+              color: @font-color-27;
+            }
+          }
+        }
+        p {
+          margin-top: 0;
+          font-size: 13px;
+          margin-bottom: 6px;
+          color: @font-color-3;
+        }
+      }
+    }
+  }
+}
+
+/* 统计组件样式覆盖 */
+.el-statistic {
+  --el-statistic-content-font-size: 30px; /* 设置统计数字字体大小 */
+}
+
+/* 统计卡片样式 */
+.statistic-card {
+  padding: 20px; /* 内边距 */
+  .title {
+    align-items: center; /* 垂直居中 */
+    font-size: 14px; /* 字体大小 */
+  }
+}
+
+.input {
+  width: 92%;
+}

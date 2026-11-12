@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="58px" height="58px" viewBox="0 0 58 58" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>智能管理</title>
+    <g id="智能管理" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="椭圆形" fill="#297AFF" cx="29" cy="29" r="29"></circle>
+        <circle cx="29" cy="22" r="5" fill="#FFFFFF"></circle>
+        <path d="M19,35 C19,30 24,26 29,26 C34,26 39,30 39,35" stroke="#FFFFFF" stroke-width="2" fill="none"></path>
+        <path d="M24,40 L34,40 L34,42 L24,42 Z" fill="#FFFFFF"></path>
+    </g>
+</svg>

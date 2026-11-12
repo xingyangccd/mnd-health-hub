@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mnd.healthhub.db.mapper.SysUserMapper">
+
+    <delete id="deleteByIds">
+        delete from sys_user where user_id in
+        <foreach collection="ids" open="(" close=")" separator="," item="userId">
+            #{userId}
+        </foreach>
+        and is_super_admin = 0
+    </delete>
+
+    <select id="selectPermissionsByUserId" resultType="String">
+        select distinct p.permission_code
+        from sys_user u
+                 join
+             sys_role r
+             on
+                 JSON_CONTAINS(u.role_ids, cast(r.role_id as json))
+                 join
+             sys_permission p
+             on
+                 JSON_CONTAINS(r.permission_ids, cast(p.permission_id as json))
+        where u.user_id = #{userId}
+          and u.user_status = 1;
+    </select>
+
+    <!--limit 1的作用：优化，提高mysql的执行效率。-->
+    <select id="findUserIdByCredentials" resultType="Integer">
+        select user_id
+        from sys_user
+        where username = #{username}
+          and password = #{password}
+          and user_status = 1 limit 1
+    </select>
+    <select id="findUsernameByUserId" resultType="String">
+        select username
+        from sys_user
+        where user_id = #{userId}
+    </select>
+
+    <select id="selectPageList" parameterType="Map" resultType="Map">
+        SELECT u.user_id as userId,u.real_name as realName,u.gender,u.mobile,u.hire_date as hireDate,
+        u.email,u.user_status as userStatus,d.dept_name as deptName,u.is_super_admin as isSuperAdmin,
+        (SELECT GROUP_CONCAT(a.role_name SEPARATOR ",")
+        FROM sys_role a
+        WHERE JSON_CONTAINS(u.role_ids, cast(a.role_id as json))) AS roles
+        FROM sys_user u
+        left JOIN sys_department d on u.dept_id = d.id
+        <where>
+            <if test="gender != null and gender != ''">
+                and u.gender = #{gender}
+            </if>
+            <if test="deptId != null">
+                and d.id = #{deptId}
+            </if>
+            <if test="userStatus != null">
+                and u.user_status = #{userStatus}
+            </if>
+            <if test="roleId != null">
+                and EXISTS (
+                SELECT 1 FROM sys_role r
+                WHERE JSON_CONTAINS(u.role_ids, CAST(r.role_id AS JSON))
+                AND r.role_id = #{roleId}
+                )
+            </if>
+            <if test="realName != null and realName != ''">
+                and u.real_name like concat('%',#{realName},'%')
+            </if>
+        </where>
+        order by u.user_id asc
+        limit #{startIndex}, #{pageSize}
+    </select>
+
+    <select id="selectPageCount" parameterType="Map" resultType="long">
+        SELECT count(*)
+        FROM sys_user u
+        left JOIN sys_department d on u.dept_id = d.id
+        <where>
+            <if test="gender != null and gender != ''">
+                and u.gender = #{gender}
+            </if>
+            <if test="deptId != null">
+                and d.id = #{deptId}
+            </if>
+            <if test="userStatus != null">
+                and u.user_status = #{userStatus}
+            </if>
+            <if test="roleId != null">
+                and EXISTS (
+                SELECT 1 FROM sys_role r
+                WHERE JSON_CONTAINS(u.role_ids, CAST(r.role_id AS JSON))
+                AND r.role_id = #{roleId}
+                )
+            </if>
+            <if test="realName != null and realName != ''">
+                and u.real_name like concat('%',#{realName},'%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert">
+        insert into sys_user
+        (username, password, real_name, gender, mobile, email, dept_id,
+         hire_date, role_ids, is_super_admin, user_status)
+        values (#{username}, #{password}, #{realName}, #{gender}, #{mobile},
+                #{email}, #{deptId}, #{hireDate}, #{roleIds}, 0, 1)
+    </insert>
+
+    <select id="findUserIdByUsername" resultType="java.lang.Integer">
+        select user_id
+        from sys_user
+        where username = #{username} limit 1
+    </select>
+    <select id="selectById" resultType="java.util.Map">
+        select real_name as realName,
+               gender,
+               mobile,
+               email,
+               hire_date as hireDate,
+               role_ids  as roleIds,
+               dept_id   as deptId
+        from sys_user
+        where user_id = #{userId}
+    </select>
+    <select id="findSuperAdminId" resultType="java.lang.Integer">
+        select user_id from sys_user where is_super_admin = 1 limit 1
+    </select>
+
+    <select id="selectDoctorById" resultType="java.util.Map">
+        select real_name as username,
+               gender,
+               mobile
+        from sys_user
+        where user_id = #{id} limit 1
+    </select>
+
+    <update id="update">
+        update sys_user
+        set real_name = #{realName},
+            gender    = #{gender},
+            mobile    = #{mobile},
+            email     = #{email},
+            hire_date = #{hireDate},
+            role_ids  = #{roleIds},
+            dept_id   = #{deptId}
+        where user_id = #{userId}
+    </update>
+
+    <update id="updatePassword">
+        update sys_user
+        set password = #{newPassword}
+        where password = #{oldPassword}
+          and user_id = #{userId}
+    </update>
+    <update id="updateStatus">
+        update sys_user
+        set user_status = 2
+        where user_id = #{userId}
+          and is_super_admin = 0
+    </update>
+
+
+</mapper>

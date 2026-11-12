@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mnd.healthhub.db.mapper.MedAppointmentLimitMapper">
+    <insert id="insertOrUpdateAppointmentLimit">
+        INSERT INTO med_appointment_limit
+        (appointment_date, actual_limit, max_limit, actual_count, remark, create_time)
+        VALUES (#{appointmentDate}, #{actualLimit}, #{maxLimit}, 1, #{remark}, NOW())
+            ON DUPLICATE KEY UPDATE
+                                 actual_count = actual_count + 1
+    </insert>
+
+    <select id="selectLimitRulesByDateRange" resultType="java.util.Map">
+        select appointment_date as appointmentDate,
+               actual_limit     as actualLimit,
+               max_limit        as maxLimit,
+               actual_count     as actualCount
+        from med_appointment_limit
+        where appointment_date between #{startDate} and #{endDate}
+        order by appointmentDate asc
+    </select>
+    <select id="selectByAppointmentDate" resultType="java.util.Map">
+        select appointment_date as appointmentDate,
+               actual_limit     as actualLimit,
+               max_limit        as maxLimit,
+               actual_count     as actualCount
+        from med_appointment_limit
+        where appointment_date = #{date}
+    </select>
+
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mnd.healthhub.db.mapper.PromotionRuleMapper">
+
+    <insert id="insert">
+        insert into promotion_rule(rule_name, rule_content, remark)
+        values (#{ruleName}, #{ruleContent}, #{remark})
+    </insert>
+    <delete id="deleteById">
+        delete
+        from promotion_rule
+        where rule_id = #{ruleId}
+    </delete>
+
+    <select id="selectAll" resultType="java.util.Map">
+        select rule_id as ruleId, rule_name as ruleName
+        from promotion_rule
+    </select>
+    <select id="selectPageList" resultType="java.util.Map">
+        select r.rule_id as ruleId,
+        r.rule_name as ruleName,
+        r.remark,
+        count(p.id) as count
+        from
+        promotion_rule r
+        left join
+        med_exam_package p
+        on r.rule_id = p.promotion_id
+        <where>
+            <if test="ruleName != null and ruleName != ''">
+                r.rule_name like concat('%', #{ruleName}, '%')
+            </if>
+        </where>
+        group by r.rule_id
+        order by r.rule_id asc
+        limit #{startIndex}, #{pageSize}
+    </select>
+    <select id="selectPageCount" resultType="java.lang.Long">
+        select count(*)
+        from
+        promotion_rule r
+        <where>
+            <if test="ruleName != null and ruleName != ''">
+                r.rule_name like concat('%', #{ruleName}, '%')
+            </if>
+        </where>
+    </select>
+    <select id="selectById" resultType="PromotionRuleEntity">
+        select rule_id      as ruleId,
+               rule_name    as ruleName,
+               rule_content as ruleContent,
+               remark
+        from promotion_rule
+        where rule_id = #{ruleId} limit 1
+    </select>
+
+    <update id="updateById">
+        update promotion_rule
+        set rule_name    = #{ruleName},
+            rule_content = #{ruleContent},
+            remark       = #{remark}
+        where rule_id = #{ruleId}
+    </update>
+
+</mapper>

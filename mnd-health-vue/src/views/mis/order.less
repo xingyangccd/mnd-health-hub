@@ -1,0 +1,54 @@
+@import url("../style.less");
+
+.range {
+  width: 250px;
+}
+.keyword {
+  width: 250px;
+}
+.content-container {
+  padding: 20px 30px;
+  display: flex;
+  .left-panel {
+    width: 500px;
+    height: 350px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    .box-card {
+      cursor: default;
+      user-select: none;
+      background-color: @bg-color-20;
+      .info {
+        display: flex;
+        .right {
+          margin-left: 15px;
+          .customer-name {
+            color: @font-color-1;
+            font-size: 18px;
+            margin: 5px 0 0 0;
+          }
+          .customer-desc {
+            display: flex;
+            margin-top: 10px;
+            margin-bottom: 0;
+            .value {
+              margin-left: 5px;
+              margin-right: 25px;
+              &:last-of-type {
+                margin-right: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+    .order-code {
+      margin-top: 34px;
+    }
+  }
+  .right-panel {
+    margin-left: 30px;
+    flex-grow: 1;
+    height: 350px;
+  }
+}

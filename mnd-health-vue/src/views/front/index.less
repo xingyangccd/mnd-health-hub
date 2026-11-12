@@ -1,0 +1,162 @@
+@import url("../style.less");
+
+.banner {
+  width: 100%;
+  margin-top: 25px;
+  display: block;
+}
+.service-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  .service {
+    width: 280px;
+    height: 114px;
+    background-color: @bg-color-18;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+      background-color: @bg-color-15;
+      transition-duration: 0.12s;
+      transition-property: all;
+    }
+    img {
+      width: 45px;
+      height: 48px;
+      display: block;
+      margin-right: 10px;
+    }
+    h4 {
+      margin: 0 0 4px 0;
+      font-size: 22px;
+      color: #fff;
+      font-weight: normal;
+    }
+    p {
+      margin: 0;
+      font-size: 14px;
+      color: #fff;
+    }
+  }
+}
+
+.goods-container {
+  margin-top: 50px; /* 容器顶部外边距 */
+  user-select: none; /* 禁止用户选择文本 */
+  nav {
+    display: flex; /* 导航栏使用flex布局 */
+    justify-content: space-between; /* 两端对齐 */
+    h3 {
+      font-size: 32px; /* 标题字体大小 */
+      color: @font-color-1; /* 使用主字体颜色变量 */
+      font-weight: normal; /* 正常字体粗细 */
+      margin: 0px 0 25px 0; /* 外边距：上 右 下 左 */
+    }
+  }
+  .goods-list {
+    overflow: hidden; /* 清除浮动 */
+    list-style: none; /* 移除列表默认样式 */
+    margin: 0; /* 外边距归零 */
+    padding: 0; /* 内边距归零 */
+    .item {
+      width: 280px; /* 商品项固定宽度 */
+      float: left; /* 左浮动实现横向排列 */
+      margin-right: 26px; /* 右侧间距 */
+      &:last-of-type {
+        margin-right: 0; /* 最后一个商品项移除右侧间距 */
+      }
+      .card {
+        img {
+          width: 280px; /* 商品图片固定宽度 */
+        }
+        h4 {
+          font-size: 18px; /* 商品标题字体大小 */
+          font-weight: normal; /* 正常字体粗细 */
+          color: @font-color-1; /* 使用主字体颜色变量 */
+          margin: 10px 0 5px 0; /* 上下外边距 */
+          overflow: hidden; /* 超出部分隐藏 */
+          text-overflow: ellipsis; /* 文本溢出显示省略号 */
+          white-space: nowrap; /* 不换行 */
+        }
+
+        .desc {
+          display: -webkit-box; /* 使用webkit盒子模型 */
+          -webkit-box-orient: vertical; /* 垂直方向排列 */
+          -webkit-line-clamp: 2; /* 限制显示2行 */
+          line-clamp: 2;
+          overflow: hidden; /* 超出部分隐藏 */
+          font-size: 12px; /* 描述文字大小 */
+          color: @font-color-3; /* 使用辅助字体颜色变量 */
+          margin: 0 0 5px 0; /* 底部外边距 */
+          line-height: 1.5; /* 行高 */
+          span {
+            background-color: @bg-color-27; /* 标签背景色 */
+            color: #fff; /* 标签文字白色 */
+            padding: 2px; /* 内边距 */
+            font-size: 11px; /* 标签文字大小 */
+          }
+        }
+        .price {
+          margin: 0; /* 价格区域外边距归零 */
+          overflow: hidden; /* 清除浮动 */
+          .current {
+            color: @font-color-23; /* 当前价格颜色 */
+            font-size: 22px; /* 当前价格字体大小 */
+            font-weight: bold; /* 粗体显示 */
+            float: left; /* 左浮动 */
+          }
+          .old {
+            float: left; /* 左浮动 */
+            font-size: 13px; /* 原价字体大小 */
+            color: @font-color-3; /* 使用辅助字体颜色变量 */
+            text-decoration: line-through; /* 删除线效果 */
+            margin-left: 10px; /* 左侧间距 */
+            margin-top: 7px; /* 顶部间距用于垂直对齐 */
+          }
+          .sale {
+            float: right; /* 右浮动 */
+            font-size: 12px; /* 销量字体大小 */
+            color: @font-color-3; /* 使用辅助字体颜色变量 */
+            margin-top: 7px; /* 顶部间距用于垂直对齐 */
+          }
+        }
+        .buy-btn {
+          width: 100%; /* 按钮宽度100% */
+          background-color: @button-color-10; /* 按钮背景色 */
+          border: none; /* 无边框 */
+          border-radius: 3px; /* 圆角边框 */
+          height: 40px; /* 按钮高度 */
+          color: #fff; /* 文字白色 */
+          font-size: 15px; /* 文字大小 */
+          margin-top: 10px; /* 顶部间距 */
+          outline: none; /* 移除轮廓线 */
+          cursor: pointer; /* 手型光标 */
+          &:active {
+            background-color: @button-active-color-10; /* 按钮按下状态背景色 */
+          }
+        }
+      }
+    }
+  }
+}
+
+.partner-container {
+  h3 {
+    font-size: 36px;
+    text-align: center;
+    margin-top: 70px;
+    margin-bottom: 40px;
+    color: @font-color-1;
+  }
+  .el-row {
+    margin-bottom: 50px;
+  }
+  .logo {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+}

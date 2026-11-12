@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="58px" height="58px" viewBox="0 0 58 58" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>全国连锁</title>
+    <g id="全国连锁" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="椭圆形" fill="#297AFF" cx="29" cy="29" r="29"></circle>
+        <path d="M19,20 L39,20 L39,38 L19,38 L19,20 Z" fill="#FFFFFF"></path>
+        <rect x="22" y="23" width="4" height="12" fill="#297AFF"></rect>
+        <rect x="32" y="23" width="4" height="12" fill="#297AFF"></rect>
+        <circle cx="29" cy="16" r="3" fill="#FFFFFF"></circle>
+    </g>
+</svg>

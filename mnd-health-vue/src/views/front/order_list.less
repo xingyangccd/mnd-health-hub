@@ -1,0 +1,147 @@
+/* 引入公共样式文件 */
+@import url("../style.less");
+
+/* 表单项全局样式调整 */
+.el-form-item {
+  margin-right: 15px !important; /* 强制设置右侧间距，用于表单布局的间隔 */
+}
+
+/* 关键词搜索框样式 */
+.keyword {
+  width: 250px; /* 固定宽度，用于搜索输入框 */
+}
+
+/* 模式选择器样式（位于表单右侧） */
+.mold {
+  float: right; /* 右浮动布局 */
+  margin-right: 0px !important; /* 取消右侧边距，避免与其他元素产生间隙 */
+}
+
+/* 订单列表主容器 */
+.order-list {
+  min-height: 582px; /* 设置最小高度，确保即使无内容也有适当高度 */
+  .order {
+    border: solid 1px @border-color-1; /* 边框样式 */
+    margin-bottom: 20px; /* 底部外边距，订单项之间的间隔 */
+    width: 100%; /* 宽度占满父容器 */
+    cursor: default; /* 默认光标样式 */
+    .header {
+      overflow: hidden; /* 清除浮动 */
+      font-size: 13px;
+      color: @font-color-3;
+      background-color: @bg-color-1; /* 头部背景色 */
+      padding: 10px 20px; /* 内边距 */
+      .datetime {
+        margin-top: 2px;
+        margin-right: 30px; /* 与后续元素的间距 */
+        float: left; /* 左浮动布局 */
+        user-select: none; /* 禁止文本选中 */
+      }
+      .uuid {
+        float: left; /* 左浮动布局，订单号显示 */
+      }
+      .detail {
+        float: right; /* 右浮动布局 */
+        cursor: pointer; /* 手型光标，表示可点击 */
+        user-select: none; /* 禁止文本选中 */
+        &:hover {
+          color: @font-color-27; /* 鼠标悬停时颜色变化 */
+        }
+      }
+    }
+    .content {
+      display: flex; /* 弹性布局，水平排列子元素 */
+      padding: 20px; /* 内边距 */
+      user-select: none; /* 禁止文本选中 */
+      .image {
+        width: 60px; /* 图片固定宽度 */
+        height: 60px; /* 图片固定高度 */
+      }
+      .info {
+        width: 280px; /* 信息区域固定宽度 */
+        margin-left: 20px; /* 左侧外边距，与图片间隔 */
+        border-right: dashed 1px @border-color-1; /* 右侧虚线分隔线 */
+        padding-right: 25px; /* 右侧内边距 */
+        h4 {
+          font-size: 15px;
+          color: @font-color-1;
+          font-weight: normal; /* 取消加粗 */
+          margin-top: 0; /* 清除默认上边距 */
+          margin-bottom: 5px; /* 底部边距 */
+          padding: 0; /* 清除内边距 */
+        }
+        p {
+          margin: 0; /* 清除外边距 */
+          padding: 0; /* 清除内边距 */
+          font-size: 12px;
+          color: @font-color-3;
+          overflow: hidden; /* 溢出隐藏 */
+          display: -webkit-box; /* 弹性盒模型，用于多行文本截断 */
+          -webkit-box-orient: vertical; /* 垂直方向排列 */
+          -webkit-line-clamp: 2; /* 限制显示两行 */
+          line-clamp: 2;
+          line-height: 1.5; /* 行高设置 */
+        }
+      }
+      .label {
+        display: block; /* 块级元素 */
+        text-align: center; /* 文本居中 */
+        font-size: 13px;
+        color: @font-color-3;
+        margin-top: 10px; /* 上边距 */
+      }
+      .value {
+        display: block; /* 块级元素 */
+        text-align: center; /* 文本居中 */
+        font-size: 13px;
+        color: @font-color-23;
+        margin-top: 6px; /* 上边距，与标签的间隔 */
+      }
+      .border {
+        border-right: dashed 1px @border-color-1; /* 右侧虚线分隔线混合器 */
+        padding: 0 25px; /* 左右内边距 */
+      }
+      .price,
+      .amount {
+        .border; /* 应用border混合器，价格和数量区域样式 */
+      }
+      .number {
+        .border; /* 应用border混合器，订单编号区域样式 */
+        .value {
+          color: @font-color-3; /* 数值颜色 */
+        }
+      }
+      .status {
+        .border; /* 应用border混合器，状态区域样式 */
+        .value {
+          color: @font-color-23; /* 状态值颜色 */
+          font-size: 12px; /* 字体大小稍小 */
+        }
+      }
+      .operate {
+        margin-left: 20px; /* 左侧外边距，与其他内容间隔 */
+        padding-top: 15px; /* 顶部内边距，垂直居中调整 */
+      }
+    }
+  }
+}
+
+/* 空状态容器样式 */
+.empty {
+  height: 600px; /* 固定高度，用于无订单数据时的占位显示 */
+}
+
+.appointment {
+  border: solid 1px @border-color-19;
+  border-radius: 3px;
+  margin: 0 10px 0 10px;
+  padding: 0 20px;
+  legend {
+    padding: 0 15px;
+    margin-bottom: 20px;
+    h4 {
+      font-size: 16px;
+      margin: 0;
+    }
+  }
+}

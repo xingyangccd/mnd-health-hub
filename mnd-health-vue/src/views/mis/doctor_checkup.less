@@ -1,0 +1,68 @@
+@import url("../style.less");
+
+.person-container {
+  display: flex;
+  justify-content: space-between;
+  .left {
+    width: 49%;
+    .operate {
+      display: flex;
+      .uuid {
+        width: 315px;
+        margin-right: 15px;
+      }
+    }
+  }
+  .right {
+    width: 49%;
+  }
+  .cell-item {
+    display: flex;
+    justify-content: center;
+    padding-right: 15px;
+    .icon {
+      margin-top: 5px;
+      margin-right: 5px;
+    }
+  }
+}
+
+.checkup-container {
+  margin-top: 40px;
+  table {
+    width: 100%;
+    border-spacing: 0;
+    border: solid 1px @border-color-22;
+    border-collapse: collapse;
+    th {
+      padding: 15px;
+      border: solid 1px @border-color-22;
+      color: @font-color-32;
+      background-color: @bg-color-31;
+    }
+    td {
+      border: solid 1px @border-color-22;
+      padding: 15px;
+    }
+    .value-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .el-select {
+        flex: 1;
+        min-width: 120px;
+      }
+
+      .input-value {
+        flex: 2;
+        min-width: 150px;
+        margin-left: 0;
+      }
+    }
+  }
+  .operate {
+    margin-top: 30px;
+    text-align: left;
+  }
+}
